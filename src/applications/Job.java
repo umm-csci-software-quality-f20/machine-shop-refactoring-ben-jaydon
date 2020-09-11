@@ -17,15 +17,25 @@ class Job {
     }
 
     // other methods
+
+    /**
+     * @deprecated
+     * @param theMachine
+     * @param theTime
+     */
     public void addTask(int theMachine, int theTime) {
-        getTaskQ().put(new Task(theMachine, theTime));
+        taskQ.put(new Task(theMachine, theTime));
+    }
+
+    public void addTask(Task theTask) {
+        taskQ.put(theTask);
     }
 
     /**
      * remove next task of job and return its time also update length
      */
     public int removeNextTask() {
-        int theTime = ((Task) getTaskQ().remove()).getTime();
+        int theTime = ((Task) taskQ.remove()).getTime();
         length = getLength() + theTime;
         return theTime;
     }
