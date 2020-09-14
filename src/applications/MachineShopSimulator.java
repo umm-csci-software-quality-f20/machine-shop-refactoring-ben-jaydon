@@ -97,11 +97,7 @@ public class MachineShopSimulator {
             // priority refactoring, but preliminary work is being done first.
 
             firstMachine = taskSpecifications[1];
-            for (int j = 1; j <= taskSpecifications.length - 1; j += 2) {
-                int theMachine = taskSpecifications[j];
-                int theTaskTime = taskSpecifications[j + 1];
-                theJob.addTask(theMachine, theTaskTime); // add to
-            } // task queue
+            theJob.addTasksFromSpecifications(taskSpecifications);
             machine[firstMachine].getJobQ().put(theJob);
         }
     }

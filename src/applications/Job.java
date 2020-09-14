@@ -16,6 +16,11 @@ class Job {
         // length and arrivalTime have default value 0
     }
 
+    Job(int theId, int[] taskSpecifications) {
+        id = theId;
+        addTasksFromSpecifications(taskSpecifications);
+    }
+
     // other methods
 
     /**
@@ -59,5 +64,13 @@ class Job {
     public int getId() {
         return id;
     }
+
+	void addTasksFromSpecifications(int[] taskSpecifications) {
+	    for (int j = 1; j <= taskSpecifications.length - 1; j += 2) {
+	        int theMachine = taskSpecifications[j];
+	        int theTaskTime = taskSpecifications[j + 1];
+	        addTask(theMachine, theTaskTime); // add to
+	    } // task queue
+	}
 
 }
