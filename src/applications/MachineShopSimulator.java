@@ -57,11 +57,10 @@ public class MachineShopSimulator {
             if (machine[theMachine].jobQ.isEmpty()) // no waiting job
                 eList.setFinishTime(theMachine, largeTime);
             else {// take job off the queue and work on it
-                machine[theMachine].activeJob = ((Job) machine[theMachine].jobQ
-                        .remove());
-                machine[theMachine].totalWait = (machine[theMachine].totalWait + timeNow
-                        - machine[theMachine].activeJob.getArrivalTime());
-                machine[theMachine].numTasks = (machine[theMachine].numTasks + 1);
+                machine[theMachine].activeJob = ((Job) machine[theMachine].jobQ.remove());
+                machine[theMachine].totalWait =
+                        (machine[theMachine].totalWait + timeNow - machine[theMachine].activeJob.getArrivalTime());
+                machine[theMachine].numTasks++;
                 int t = machine[theMachine].activeJob.removeNextTask();
                 eList.setFinishTime(theMachine, timeNow + t);
             }
