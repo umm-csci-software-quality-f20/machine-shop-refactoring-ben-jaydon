@@ -86,17 +86,20 @@ public class MachineShopSimulator {
         // input the jobs
         Job theJob;
         for (int i = 1; i <= specification.getNumJobs(); i++) {
-            int tasks = specification.getJobSpecifications(i).getNumTasks();
             int firstMachine = 0; // machine for first task
 
             // create the job
             theJob = new Job(i);
             int[] taskSpecifications = specification.getJobSpecifications(i).getSpecificationsForTasks();
-            for (int j = 1; j <= tasks; j++) {
-                int theMachine = taskSpecifications[2*(j-1)+1];
-                int theTaskTime = taskSpecifications[2*(j-1)+2];
-                if (j == 1)
-                    firstMachine = theMachine; // job's first machine
+
+            // Note that taskSpecifications is an array of integers with values alternating
+            // between machine numbers and task times.  This is on the chopping block for
+            // priority refactoring, but preliminary work is being done first.
+
+            firstMachine = taskSpecifications[1];
+            for (int j = 1; j <= taskSpecifications.length - 1; j += 2) {
+                int theMachine = taskSpecifications[j];
+                int theTaskTime = taskSpecifications[j + 1];
                 theJob.addTask(theMachine, theTaskTime); // add to
             } // task queue
             machine[firstMachine].getJobQ().put(theJob);
