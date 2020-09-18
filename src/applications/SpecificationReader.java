@@ -15,7 +15,7 @@ public class SpecificationReader {
 
     private void readChangeOverTimes() {
         // input the change-over times
-        int[] changeOverTimes = new int[specification.getNumMachines()+1];
+        int[] changeOverTimes = new int[specification.getNumMachines() + 1];
 
         System.out.println("Enter change-over times for machines");
         for (int j = 1; j <= specification.getNumMachines(); j++) {
@@ -28,10 +28,13 @@ public class SpecificationReader {
         specification.setChangeOverTimes(changeOverTimes);
     }
 
+    /**
+     * @deprecated
+     */
     private void readJobSpecifications() {
         // input the jobs
-        JobSpecification[] jobSpecifications = new JobSpecification[specification.getNumJobs()+1];
-        for (int i=1; i <= specification.getNumJobs(); i++) {
+        JobSpecification[] jobSpecifications = new JobSpecification[specification.getNumJobs() + 1];
+        for (int i = 1; i <= specification.getNumJobs(); i++) {
             jobSpecifications[i] = new JobSpecification();
         }
         specification.setJobSpecification(jobSpecifications);
@@ -44,19 +47,41 @@ public class SpecificationReader {
 
             int[] specificationsForTasks = new int[2 * tasks + 1];
 
-            System.out.println("Enter the tasks (machine, time)"
-                    + " in process order");
+            System.out.println("Enter the tasks (machine, time)" + " in process order");
             for (int j = 1; j <= tasks; j++) { // get tasks for job i
                 int theMachine = keyboard.readInteger();
                 int theTaskTime = keyboard.readInteger();
-                if (theMachine < 1 || theMachine > specification.getNumMachines()
-                        || theTaskTime < 1)
+                if (theMachine < 1 || theMachine > specification.getNumMachines() || theTaskTime < 1)
                     throw new MyInputException(MachineShopSimulator.BAD_MACHINE_NUMBER_OR_TASK_TIME);
-                specificationsForTasks[2*(j-1)+1] = theMachine;
-                specificationsForTasks[2*(j-1)+2] = theTaskTime;
+                specificationsForTasks[2 * (j - 1) + 1] = theMachine;
+                specificationsForTasks[2 * (j - 1) + 2] = theTaskTime;
             }
             specification.setSpecificationsForTasks(i, specificationsForTasks);
         }
+    }
+
+    private void readJob() {
+        Job[] theJobs = new Job[specification.getNumJobs() + 1];
+        for (int i = 1; i <= specification.getNumJobs(); i++) {
+            System.out.println("Enter number of tasks for job " + i);
+
+            int numTasks = keyboard.readInteger(); // number of tasks
+            if (numTasks < 1) {
+                throw new MyInputException(MachineShopSimulator.EACH_JOB_MUST_HAVE_AT_LEAST_1_TASK);
+            }
+
+            System.out.println("Enter the tasks (machine, time)" + " in process order");
+
+            Task[] theTasks = new Task[specification.getNumJobs() + 1];
+            for (int j = 1; j <= numTasks; j++) { // Yes, I'm working with a 1 indexed array of my own.  I need to be compatible with and similar to
+                                                  // all the other garbage.  I want to fix it, but that's its own problem.
+                int theMachine = keyboard.readInteger();
+                int theTaskTime = keyboard.readInteger();
+                theTasks[j] = new Task(theMachine, theTaskTime);
+            }
+            theJobs[i] = new Job(i, theTasks);
+        }
+
     }
 
     private void readNumberMachinesAndJobs() {
