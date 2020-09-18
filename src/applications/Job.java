@@ -18,7 +18,19 @@ class Job {
 
     Job(int theId, int[] taskSpecifications) {
         id = theId;
+        taskQ = new LinkedQueue();
         addTasksFromSpecifications(taskSpecifications);
+    }
+
+    Job(int theId, Task[] theTasks){
+        id = theId;
+        taskQ = new LinkedQueue();
+        for (Task theTask: theTasks){
+            if (theTask != null){
+                taskQ.put(theTask);
+            }
+        }
+
     }
 
     // other methods

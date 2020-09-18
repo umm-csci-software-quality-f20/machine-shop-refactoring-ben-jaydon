@@ -32,18 +32,32 @@ public class SimulationSpecification {
         return changeOverTimes[machineNumber];
     }
 
+    /**
+     * @deprecated
+     * @param jobNumber
+     * @param specificationsForTasks
+     */
     public void setSpecificationsForTasks(int jobNumber, int[] specificationsForTasks) {
         jobSpecifications[jobNumber].setSpecificationsForTasks(specificationsForTasks);
     }
 
+    /**
+     * @deprecated
+     * @param jobSpecifications
+     */
     public void setJobSpecification(JobSpecification[] jobSpecifications) {
         this.jobSpecifications = jobSpecifications;
     }
 
+    /**
+     * @deprecated
+     * @param jobNumber
+     * @return
+     */
     public JobSpecification getJobSpecifications(int jobNumber) {
         return jobSpecifications[jobNumber];
     }
-
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
