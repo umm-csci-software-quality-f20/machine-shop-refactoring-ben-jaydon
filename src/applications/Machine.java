@@ -20,7 +20,7 @@ class Machine {
      *
      * @return last job run on this machine
      */
-    static Job changeState(Machine[] machine, EventList eList, int largeTime, int timeNow, int theMachine) {// Task on theMachine has finished,
+    Job changeState(Machine[] machine, EventList eList, int largeTime, int timeNow, int theMachine) {// Task on theMachine has finished,
                                             // schedule next one.
         Job lastJob;
         if (machine[theMachine].activeJob == null) {// in idle or change-over
