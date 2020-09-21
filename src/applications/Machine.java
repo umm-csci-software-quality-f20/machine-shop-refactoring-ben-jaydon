@@ -18,8 +18,14 @@ class Machine {
     public void newActiveJob() {
         this.activeJob = ((Job) this.jobQ.remove());
     }
-    public void setWait(int timeNow) {
-        this.totalWait = (this.totalWait + timeNow - this.activeJob.getArrivalTime());
+    public static void setWait(Machine machine, int timeNow) {
+        machine.totalWait = (machine.totalWait + timeNow - machine.activeJob.getArrivalTime());
+    }
+
+    public void testMethod(MachineShopSimulator machineShopSimulator) {
+        newActiveJob();
+        setWait(this, machineShopSimulator.getTimeNow());
+        numTasks++;
     }
 
     public LinkedQueue getJobQ() {
