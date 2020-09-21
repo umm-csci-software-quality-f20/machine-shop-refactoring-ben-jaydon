@@ -22,7 +22,7 @@ class Machine {
         machine.totalWait = (machine.totalWait + timeNow - machine.activeJob.getArrivalTime());
     }
 
-    public void testMethod(MachineShopSimulator machineShopSimulator) {
+    public void beginNextJob(MachineShopSimulator machineShopSimulator) {
         newActiveJob();
         setWait(this, machineShopSimulator.getTimeNow());
         numTasks++;
