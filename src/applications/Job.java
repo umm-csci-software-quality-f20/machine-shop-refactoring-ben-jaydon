@@ -1,5 +1,7 @@
 package applications;
 
+import java.util.ArrayList;
+
 import dataStructures.LinkedQueue;
 
 class Job {
@@ -83,6 +85,21 @@ class Job {
 	        int theTaskTime = taskSpecifications[j + 1];
 	        addTask(theMachine, theTaskTime); // add to
 	    } // task queue
-	}
+    }
+
+    public JobSpecification getSpecificationFromJob() {
+        JobSpecification output = new JobSpecification();
+        int numTasks = taskQ.size();
+        int[] outputArray = new int[2*numTasks+1];
+        int i = 1;
+        for(Object theTask: taskQ.toArrayList()){
+            outputArray[2 * (i - 1) + 1] = ((Task) theTask).getMachine();
+            outputArray[2 * (i - 1) + 2] = ((Task) theTask).getTime();
+            i++;
+        }
+        output.setSpecificationsForTasks(outputArray);
+        output.setNumTasks(numTasks);
+        return output;        
+    }
 
 }
