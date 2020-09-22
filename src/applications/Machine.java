@@ -32,10 +32,6 @@ class Machine {
         return jobQ;
     }
 
-    public void setJobQ(LinkedQueue jobQ) {
-        this.jobQ = jobQ;
-    }
-
     public int getChangeTime() {
         return changeTime;
     }
@@ -48,16 +44,8 @@ class Machine {
         return totalWait;
     }
 
-    public void setTotalWait(int totalWait) {
-        this.totalWait = totalWait;
-    }
-
     public int getNumTasks() {
         return numTasks;
-    }
-
-    public void setNumTasks(int numTasks) {
-        this.numTasks = numTasks;
     }
 
     public Job getActiveJob() {
