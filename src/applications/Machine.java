@@ -15,6 +15,19 @@ class Machine {
         jobQ = new LinkedQueue();
     }
 
+    public void newActiveJob() {
+        this.activeJob = ((Job) this.jobQ.remove());
+    }
+    public static void setWait(Machine machine, int timeNow) {
+        machine.totalWait = (machine.totalWait + timeNow - machine.activeJob.getArrivalTime());
+    }
+
+    public void beginNextJob(MachineShopSimulator machineShopSimulator) {
+        newActiveJob();
+        setWait(this, machineShopSimulator.getTimeNow());
+        numTasks++;
+    }
+
     public LinkedQueue getJobQ() {
         return jobQ;
     }
@@ -31,16 +44,8 @@ class Machine {
         return totalWait;
     }
 
-    public void setTotalWait(int totalWait) {
-        this.totalWait = totalWait;
-    }
-
     public int getNumTasks() {
         return numTasks;
-    }
-
-    public void setNumTasks(int numTasks) {
-        this.numTasks = numTasks;
     }
 
     public Job getActiveJob() {
