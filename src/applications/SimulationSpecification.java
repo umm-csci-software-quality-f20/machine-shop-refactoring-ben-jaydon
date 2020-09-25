@@ -7,6 +7,7 @@ public class SimulationSpecification {
     private int numJobs;
     private int[] changeOverTimes;
     private JobSpecification[] jobSpecifications;
+    private Job[] jobs;
 
     public void setNumMachines(int numMachines) {
         this.numMachines = numMachines;
@@ -44,9 +45,13 @@ public class SimulationSpecification {
     /**
      * @deprecated
      * @param jobSpecifications
+     * Automatically sets up Jobs, given specifications.
      */
     public void setJobSpecification(JobSpecification[] jobSpecifications) {
         this.jobSpecifications = jobSpecifications;
+        for(int i = 1; i < jobSpecifications.length; i++) {
+            jobs[i] = new Job(i, jobSpecifications[i].getSpecificationsForTasks());
+        }
     }
 
     /**
@@ -55,7 +60,12 @@ public class SimulationSpecification {
      * @return
      */
     public JobSpecification getJobSpecifications(int jobNumber) {
-        return jobSpecifications[jobNumber];
+        //return jobSpecifications[jobNumber];
+        return jobs[jobNumber].getSpecificationFromJob();
+    }
+
+    public void setJobs(Job[] theJobs) {
+        this.jobs = theJobs;
     }
     
     @Override

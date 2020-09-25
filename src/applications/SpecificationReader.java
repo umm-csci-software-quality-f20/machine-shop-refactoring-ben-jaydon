@@ -60,7 +60,7 @@ public class SpecificationReader {
         }
     }
 
-    private void readJob() {
+    private void readJobs() {
         Job[] theJobs = new Job[specification.getNumJobs() + 1];
         for (int i = 1; i <= specification.getNumJobs(); i++) {
             System.out.println("Enter number of tasks for job " + i);
@@ -77,11 +77,14 @@ public class SpecificationReader {
                                                   // all the other garbage.  I want to fix it, but that's its own problem.
                 int theMachine = keyboard.readInteger();
                 int theTaskTime = keyboard.readInteger();
+                if (theMachine < 1 || theMachine > specification.getNumMachines() || theTaskTime < 1){
+                    throw new MyInputException(MachineShopSimulator.BAD_MACHINE_NUMBER_OR_TASK_TIME);
+                }
                 theTasks[j] = new Task(theMachine, theTaskTime);
             }
             theJobs[i] = new Job(i, theTasks);
         }
-
+        specification.setJobs(theJobs);
     }
 
     private void readNumberMachinesAndJobs() {
@@ -100,7 +103,7 @@ public class SpecificationReader {
     public SimulationSpecification readSpecification() {
         readNumberMachinesAndJobs();
         readChangeOverTimes();
-        readJobSpecifications();
+        readJobs();
         return specification;
     }
 }

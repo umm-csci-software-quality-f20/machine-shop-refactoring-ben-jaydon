@@ -109,7 +109,7 @@ public class LinkedQueue implements Queue {
         ArrayList<Object> output = new ArrayList<Object>();
         ChainNode node = front;
         while (node != null) {
-            output.add(node);
+            output.add(node.element);
             node = node.next;
         }
         return output;
