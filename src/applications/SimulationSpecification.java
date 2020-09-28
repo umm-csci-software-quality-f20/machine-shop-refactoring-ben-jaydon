@@ -37,9 +37,11 @@ public class SimulationSpecification {
      * @deprecated
      * @param jobNumber
      * @param specificationsForTasks
+     * Automatically applies tasks to the appropriate job.
      */
     public void setSpecificationsForTasks(int jobNumber, int[] specificationsForTasks) {
         jobSpecifications[jobNumber].setSpecificationsForTasks(specificationsForTasks);
+        jobs[jobNumber].addTasksFromSpecifications(specificationsForTasks);
     }
 
     /**
