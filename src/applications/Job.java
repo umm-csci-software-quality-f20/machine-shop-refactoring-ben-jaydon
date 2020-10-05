@@ -80,7 +80,8 @@ class Job {
     }
 
 	void addTasksFromSpecifications(int[] taskSpecifications) {
-	    for (int j = 1; j <= taskSpecifications.length - 1; j += 2) {
+
+	    for (int j = 1; j < taskSpecifications.length - 1; j += 2) {
 	        int theMachine = taskSpecifications[j];
 	        int theTaskTime = taskSpecifications[j + 1];
 	        addTask(theMachine, theTaskTime); // add to

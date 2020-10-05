@@ -72,7 +72,7 @@ public class SpecificationReader {
 
             System.out.println("Enter the tasks (machine, time)" + " in process order");
 
-            Task[] theTasks = new Task[specification.getNumJobs() + 1];
+            Task[] theTasks = new Task[numTasks + 1];
             for (int j = 1; j <= numTasks; j++) { // Yes, I'm working with a 1 indexed array of my own.  I need to be compatible with and similar to
                                                   // all the other garbage.  I want to fix it, but that's its own problem.
                 int theMachine = keyboard.readInteger();

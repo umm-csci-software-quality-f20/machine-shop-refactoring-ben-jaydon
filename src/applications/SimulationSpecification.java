@@ -51,8 +51,13 @@ public class SimulationSpecification {
      */
     public void setJobSpecification(JobSpecification[] jobSpecifications) {
         this.jobSpecifications = jobSpecifications;
+        jobs = new Job[jobSpecifications.length];
         for(int i = 1; i < jobSpecifications.length; i++) {
-            jobs[i] = new Job(i, jobSpecifications[i].getSpecificationsForTasks());
+            if (jobSpecifications[i].getSpecificationsForTasks() != null) {
+                jobs[i] = new Job(i, jobSpecifications[i].getSpecificationsForTasks());
+            } else {
+                jobs[i] = new Job(i);
+            }
         }
     }
 
