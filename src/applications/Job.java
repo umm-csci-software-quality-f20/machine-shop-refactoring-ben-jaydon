@@ -1,5 +1,7 @@
 package applications;
 
+import java.util.ArrayList;
+
 import dataStructures.LinkedQueue;
 
 class Job {
@@ -16,16 +18,43 @@ class Job {
         // length and arrivalTime have default value 0
     }
 
+    Job(int theId, int[] taskSpecifications) {
+        id = theId;
+        taskQ = new LinkedQueue();
+        addTasksFromSpecifications(taskSpecifications);
+    }
+
+    Job(int theId, Task[] theTasks){
+        id = theId;
+        taskQ = new LinkedQueue();
+        for (Task theTask: theTasks){
+            if (theTask != null){
+                taskQ.put(theTask);
+            }
+        }
+
+    }
+
     // other methods
+
+    /**
+     * @deprecated
+     * @param theMachine
+     * @param theTime
+     */
     public void addTask(int theMachine, int theTime) {
-        getTaskQ().put(new Task(theMachine, theTime));
+        taskQ.put(new Task(theMachine, theTime));
+    }
+
+    public void addTask(Task theTask) {
+        taskQ.put(theTask);
     }
 
     /**
      * remove next task of job and return its time also update length
      */
     public int removeNextTask() {
-        int theTime = ((Task) getTaskQ().remove()).getTime();
+        int theTime = ((Task) taskQ.remove()).getTime();
         length = getLength() + theTime;
         return theTime;
     }
@@ -48,6 +77,30 @@ class Job {
 
     public int getId() {
         return id;
+    }
+
+	void addTasksFromSpecifications(int[] taskSpecifications) {
+
+	    for (int j = 1; j < taskSpecifications.length - 1; j += 2) {
+	        int theMachine = taskSpecifications[j];
+	        int theTaskTime = taskSpecifications[j + 1];
+	        addTask(theMachine, theTaskTime); // add to
+	    } // task queue
+    }
+
+    public JobSpecification getSpecificationFromJob() {
+        JobSpecification output = new JobSpecification();
+        int numTasks = taskQ.size();
+        int[] outputArray = new int[2*numTasks+1];
+        int i = 1;
+        for(Object theTask: taskQ.toArrayList()){
+            outputArray[2 * (i - 1) + 1] = ((Task) theTask).getMachine();
+            outputArray[2 * (i - 1) + 2] = ((Task) theTask).getTime();
+            i++;
+        }
+        output.setSpecificationsForTasks(outputArray);
+        output.setNumTasks(numTasks);
+        return output;        
     }
 
 }

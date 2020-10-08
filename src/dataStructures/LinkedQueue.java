@@ -2,6 +2,8 @@
 
 package dataStructures;
 
+import java.util.ArrayList;
+
 public class LinkedQueue implements Queue {
     // data members
     protected ChainNode front;
@@ -101,6 +103,16 @@ public class LinkedQueue implements Queue {
             System.out.println("Front element is " + q.getFrontElement());
             System.out.println("Removed the element " + q.remove());
         }
+    }
+
+    public ArrayList<Object> toArrayList() {
+        ArrayList<Object> output = new ArrayList<Object>();
+        ChainNode node = front;
+        while (node != null) {
+            output.add(node.element);
+            node = node.next;
+        }
+        return output;
     }
 
     @Override public String toString() {

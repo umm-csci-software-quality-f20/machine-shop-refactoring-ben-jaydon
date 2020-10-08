@@ -81,18 +81,18 @@ public class MachineShopSimulator {
         // input the jobs
         Job theJob;
         for (int i = 1; i <= specification.getNumJobs(); i++) {
-            int tasks = specification.getJobSpecifications(i).getNumTasks();
             int firstMachine = 0; // machine for first task
 
             // create the job
             theJob = new Job(i);
-            for (int j = 1; j <= tasks; j++) {
-                int theMachine = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+1];
-                int theTaskTime = specification.getJobSpecifications(i).getSpecificationsForTasks()[2*(j-1)+2];
-                if (j == 1)
-                    firstMachine = theMachine; // job's first machine
-                theJob.addTask(theMachine, theTaskTime); // add to
-            } // task queue
+            int[] taskSpecifications = specification.getJobSpecifications(i).getSpecificationsForTasks();
+
+            // Note that taskSpecifications is an array of integers with values alternating
+            // between machine numbers and task times.  This is on the chopping block for
+            // priority refactoring, but preliminary work is being done first.
+
+            firstMachine = taskSpecifications[1];
+            theJob.addTasksFromSpecifications(taskSpecifications);
             machine[firstMachine].getJobQ().put(theJob);
         }
     }
@@ -106,7 +106,8 @@ public class MachineShopSimulator {
     }
 
     /** load first jobs onto each machine
-     * @param specification*/
+     * @param specification
+     * */
     void startShop(SimulationSpecification specification) {
         // Move this to startShop when ready
         numMachines = specification.getNumMachines();
@@ -124,7 +125,8 @@ public class MachineShopSimulator {
     }
 
     /** process all jobs to completion
-     * @param simulationResults*/
+     * @param simulationResults
+     * */
     void simulate(SimulationResults simulationResults) {
         while (numJobs > 0) {// at least one job left
             int nextToFinish = eList.nextEventMachine();
@@ -139,7 +141,8 @@ public class MachineShopSimulator {
     }
 
     /** output wait times at machines
-     * @param simulationResults*/
+     * @param simulationResults
+     * */
     void outputStatistics(SimulationResults simulationResults) {
         simulationResults.setFinishTime(timeNow);
         simulationResults.setNumMachines(numMachines);

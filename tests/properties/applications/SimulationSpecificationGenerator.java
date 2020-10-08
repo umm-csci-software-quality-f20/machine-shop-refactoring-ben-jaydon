@@ -25,14 +25,14 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
     }
 
     @Override public SimulationSpecification generate(SourceOfRandomness r, GenerationStatus status) {
-        SimulationSpecification result = new SimulationSpecification();
+        SimulationSpecification generatedSpecification = new SimulationSpecification();
         // I add one to these random numbers so I don't end up with 0 machines
         // or 0 jobs.
         int numMachines = r.nextInt(MAX_MACHINES) + 1;
         int numJobs = r.nextInt(MAX_JOBS) + 1;
 
-        result.setNumMachines(numMachines);
-        result.setNumJobs(numJobs);
+        generatedSpecification.setNumMachines(numMachines);
+        generatedSpecification.setNumJobs(numJobs);
 
         // Ugh – the annoying problem of the indices starting at one again
         // so I have to make the array one too large and skip the first
@@ -42,13 +42,13 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
             // Changeover times can be 0 so I don't need to add 1 here.
             changeOverTimes[i] = r.nextInt(MAX_CHANGEOVER_TIME);
         }
-        result.setChangeOverTimes(changeOverTimes);
+        generatedSpecification.setChangeOverTimes(changeOverTimes);
 
         JobSpecification[] jobSpecifications = new JobSpecification[numJobs + 1];
         for (int i=1; i<=numJobs; ++i) {
             jobSpecifications[i] = new JobSpecification();
         }
-        result.setJobSpecification(jobSpecifications);
+        generatedSpecification.setJobSpecification(jobSpecifications);
         for (int i=1; i<=numJobs; ++i) {
             int numTasks = r.nextInt(MAX_TASKS) + 1;
             jobSpecifications[i].setNumTasks(numTasks);
@@ -61,10 +61,10 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
                 specificationsForTasks[2 * (j - 1) + 1] = theMachine;
                 specificationsForTasks[2 * (j - 1) + 2] = theTaskTime;
             }
-            result.setSpecificationsForTasks(i, specificationsForTasks);
+            generatedSpecification.setSpecificationsForTasks(i, specificationsForTasks);
         }
 
-        return result;
+        return generatedSpecification;
     }
 
     /**
