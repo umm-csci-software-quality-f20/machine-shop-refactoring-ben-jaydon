@@ -84,8 +84,11 @@ public class MachineShopSimulator {
 
     private void setUpJobs(SimulationSpecification specification) {
         // input the jobs
+        /*
         Job theJob;
         for (int i = 1; i <= specification.getNumJobs(); i++) {
+            theJob = new Job(specifications.jobs[])
+            
             int firstMachine = 0; // machine for first task
 
             // create the job
@@ -99,6 +102,15 @@ public class MachineShopSimulator {
             firstMachine = taskSpecifications[1];
             theJob.addTasksFromSpecifications(taskSpecifications);
             machine[firstMachine].getJobQ().put(theJob);
+            
+
+        }
+        */
+
+        for(Job j: specification.jobs) {
+            if(j != null) {
+                machine[j.getFirstMachine()].getJobQ().put(j);
+            }
         }
     }
 

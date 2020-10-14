@@ -1,5 +1,6 @@
 package applications;
 
+@Deprecated
 public class JobSpecification {
     private int numTasks;
     private int[] specificationsForTasks;

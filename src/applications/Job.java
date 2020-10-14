@@ -79,6 +79,10 @@ class Job {
         return id;
     }
 
+    public int getFirstMachine() {
+        return ((Task)taskQ.getFrontElement()).getMachine();
+    }
+
 	void addTasksFromSpecifications(int[] taskSpecifications) {
 
 	    for (int j = 1; j < taskSpecifications.length - 1; j += 2) {

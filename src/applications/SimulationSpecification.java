@@ -7,7 +7,7 @@ public class SimulationSpecification {
     private int numJobs;
     private int[] changeOverTimes;
     private JobSpecification[] jobSpecifications;
-    private Job[] jobs;
+    public Job[] jobs;
 
     public void setNumMachines(int numMachines) {
         this.numMachines = numMachines;
@@ -73,6 +73,10 @@ public class SimulationSpecification {
 
     public void setJobs(Job[] theJobs) {
         this.jobs = theJobs;
+    }
+
+    public Job getJob(int index) {
+        return jobs[index];
     }
     
     @Override
