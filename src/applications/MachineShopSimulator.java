@@ -29,15 +29,7 @@ public class MachineShopSimulator {
             return false;
         } else {// theJob has a next task
                 // get machine for next task
-            int p = ((Task) theJob.getTaskQ().getFrontElement()).getMachine();
-            // put on machine p's wait queue
-            machine[p].getJobQ().put(theJob);
-            theJob.setArrivalTime(timeNow);
-            // if p idle, schedule immediately
-            if (eList.nextEventTime(p) == largeTime) {// machine is idle
-                changeState(p);
-            }
-            return true;
+            return theJob.scheduleTask(this);
         }
     }
 
@@ -50,23 +42,7 @@ public class MachineShopSimulator {
                                             // schedule next one.
         Job lastJob;
         Machine machine = this.machine[theMachine];
-        if (machine.getActiveJob() == null) {// in idle or change-over
-                                                    // state
-            lastJob = null;
-            // wait over, ready for new job
-            if (machine.getJobQ().isEmpty()) // no waiting job
-                eList.setFinishTime(theMachine, largeTime);
-            else {// take job off the queue and work on it
-                machine.beginNextJob(this);
-                int t = machine.getActiveJob().removeNextTask();
-                eList.setFinishTime(theMachine, timeNow + t);
-            }
-        } else {// task has just finished on machine[theMachine]
-                // schedule change-over time
-            lastJob = machine.getActiveJob();
-            machine.setActiveJob(null);
-            eList.setFinishTime(theMachine, timeNow + machine.getChangeTime());
-        }
+        lastJob = machine.processWork(theMachine, this);
 
         return lastJob;
     }
@@ -193,5 +169,29 @@ public class MachineShopSimulator {
 
     public int getTimeNow() {
         return timeNow;
+    }
+
+    public EventList geteList() {
+        return eList;
+    }
+
+    public void seteList(EventList eList) {
+        this.eList = eList;
+    }
+
+    public Machine[] getMachine() {
+        return machine;
+    }
+
+    public void setMachine(Machine[] machine) {
+        this.machine = machine;
+    }
+
+    public int getLargeTime() {
+        return largeTime;
+    }
+
+    public void setLargeTime(int largeTime) {
+        this.largeTime = largeTime;
     }
 }
