@@ -53,26 +53,6 @@ public class MachineShopSimulator {
         }
     }
 
-    private void setUpJobs(SimulationSpecification specification) {
-        // input the jobs
-        Job theJob;
-        for (int i = 1; i <= specification.getNumJobs(); i++) {
-            int firstMachine = 0; // machine for first task
-
-            // create the job
-            theJob = new Job(i);
-            int[] taskSpecifications = specification.getJobSpecifications(i).getSpecificationsForTasks();
-
-            // Note that taskSpecifications is an array of integers with values alternating
-            // between machine numbers and task times.  This is on the chopping block for
-            // priority refactoring, but preliminary work is being done first.
-
-            firstMachine = taskSpecifications[1];
-            theJob.addTasksFromSpecifications(taskSpecifications);
-            machine[firstMachine].getJobQ().put(theJob);
-        }
-    }
-
     private void createEventAndMachineQueues(SimulationSpecification specification) {
         // create event and machine queues
         eList = new EventList(specification.getNumMachines(), largeTime);
@@ -94,7 +74,7 @@ public class MachineShopSimulator {
         setMachineChangeOverTimes(specification);
 
         // Move this to startShop when ready
-        setUpJobs(specification);
+        specification.setUpJobs(this);
 
         for (int p = 1; p <= numMachines; p++)
             changeState(p);
