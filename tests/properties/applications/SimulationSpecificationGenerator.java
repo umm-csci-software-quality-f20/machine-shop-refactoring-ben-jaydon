@@ -44,24 +44,28 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         }
         generatedSpecification.setChangeOverTimes(changeOverTimes);
 
+        /*
         JobSpecification[] jobSpecifications = new JobSpecification[numJobs + 1];
         for (int i=1; i<=numJobs; ++i) {
             jobSpecifications[i] = new JobSpecification();
         }
+        */
         //generatedSpecification.setJobSpecification(jobSpecifications);
         Job[] theJobs = new Job[numJobs + 1];
         for (int i=1; i<=numJobs; ++i) {
             int numTasks = r.nextInt(MAX_TASKS) + 1;
             //jobSpecifications[i].setNumTasks(numTasks);
 
-            int[] specificationsForTasks = new int[2 * numTasks + 1];
+            //int[] specificationsForTasks = new int[2 * numTasks + 1];
             Task[] jobTasks = new Task[numTasks + 1];
 
             for (int j = 1; j <= numTasks; ++j) {
                 int theMachine = r.nextInt(numMachines) + 1;
                 int theTaskTime = r.nextInt(MAX_TASK_TIME) + 1;
+                /*
                 specificationsForTasks[2 * (j - 1) + 1] = theMachine;
                 specificationsForTasks[2 * (j - 1) + 2] = theTaskTime;
+                */
                 jobTasks[j] = new Task(theMachine, theTaskTime);
             }
             //generatedSpecification.setSpecificationsForTasks(i, specificationsForTasks);
