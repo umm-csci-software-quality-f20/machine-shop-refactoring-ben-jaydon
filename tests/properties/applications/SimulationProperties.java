@@ -68,7 +68,7 @@ public class SimulationProperties {
         }
     }
 
-    @Property (shrink = false)
+    @Property
     public void machinesCompletedCorrectNumberOfTasks(
             @From(SimulationSpecificationGenerator.class)
                 SimulationSpecification specification)
@@ -100,13 +100,13 @@ public class SimulationProperties {
             ArrayList<Object> jobTasks = theJob.getTaskQ().toArrayList();
             int numTasks = jobTasks.size();
             assertTrue("Should actually be tasks", numTasks > 0);
-            System.err.println("numTasks: " + numTasks);
+            //System.err.println("numTasks: " + numTasks);
             for (Object t: jobTasks){
                 ++expectedMachineTaskCounts[((Task) t).getMachine()];
             } 
         }
 
-        
+
         final SimulationResults results = simulator.runSimulation(specification);
         int[] actualMachineTasksCounts = results.getNumTasksPerMachine();
         for (int i=1; i<=numMachines; ++i) {
