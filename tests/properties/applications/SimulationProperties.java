@@ -9,6 +9,10 @@ import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 @RunWith(JUnitQuickcheck.class)
 public class SimulationProperties {
@@ -70,22 +74,28 @@ public class SimulationProperties {
                 SimulationSpecification specification)
     {
         MachineShopSimulator simulator = new MachineShopSimulator();
-        final SimulationResults results = simulator.runSimulation(specification);
+
 
         int numMachines = specification.getNumMachines();
         int numJobs = specification.getNumJobs();
         int[] expectedMachineTaskCounts = new int[numMachines+1];
+        assertTrue("" + numJobs + " jobs, should be greater than 0", numJobs > 0);
 
         for (int i=1; i<=numJobs; ++i) {
-            JobSpecification jobSpecification = specification.getJobSpecifications(i);
-            int numTasks = jobSpecification.getNumTasks();
-            int[] specsForTasks = jobSpecification.getSpecificationsForTasks();
-            for (int j=1; j<=numTasks; ++j) {
-                int theMachine = specsForTasks[2*(j-1)+1];
-                ++expectedMachineTaskCounts[theMachine];
-            }
+
+            Job theJob = specification.getJob(i);
+            assertTrue("Should be tasks in the task queue itself", theJob.getTaskQ().size() > 0);
+            ArrayList<Object> jobTasks = theJob.getTaskQ().toArrayList();
+            int numTasks = jobTasks.size();
+            assertTrue("Should actually be tasks", numTasks > 0);
+            //System.err.println("numTasks: " + numTasks);
+            for (Object t: jobTasks){
+                ++expectedMachineTaskCounts[((Task) t).getMachine()];
+            } 
         }
 
+
+        final SimulationResults results = simulator.runSimulation(specification);
         int[] actualMachineTasksCounts = results.getNumTasksPerMachine();
         for (int i=1; i<=numMachines; ++i) {
             assertEquals(expectedMachineTaskCounts[i], actualMachineTasksCounts[i]);

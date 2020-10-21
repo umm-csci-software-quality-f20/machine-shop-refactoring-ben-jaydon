@@ -44,25 +44,22 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         }
         generatedSpecification.setChangeOverTimes(changeOverTimes);
 
-        JobSpecification[] jobSpecifications = new JobSpecification[numJobs + 1];
-        for (int i=1; i<=numJobs; ++i) {
-            jobSpecifications[i] = new JobSpecification();
-        }
-        generatedSpecification.setJobSpecification(jobSpecifications);
+
+        Job[] theJobs = new Job[numJobs + 1];
         for (int i=1; i<=numJobs; ++i) {
             int numTasks = r.nextInt(MAX_TASKS) + 1;
-            jobSpecifications[i].setNumTasks(numTasks);
 
-            int[] specificationsForTasks = new int[2 * numTasks + 1];
+            Task[] jobTasks = new Task[numTasks + 1];
 
             for (int j = 1; j <= numTasks; ++j) {
                 int theMachine = r.nextInt(numMachines) + 1;
                 int theTaskTime = r.nextInt(MAX_TASK_TIME) + 1;
-                specificationsForTasks[2 * (j - 1) + 1] = theMachine;
-                specificationsForTasks[2 * (j - 1) + 2] = theTaskTime;
+
+                jobTasks[j] = new Task(theMachine, theTaskTime);
             }
-            generatedSpecification.setSpecificationsForTasks(i, specificationsForTasks);
+            theJobs[i] = new Job(i, jobTasks);
         }
+        generatedSpecification.setJobs(theJobs);
 
         return generatedSpecification;
     }
@@ -104,7 +101,7 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         int machineToRemove = r.nextInt(originalNumMachines) + 1;
 
         int[] newChangeOvers = new int[originalNumMachines];
-        for (int i=1, j=1; i<=originalNumMachines; ++i) {
+        for (int i=1, j=1; i<=originalNumMachines; ++i) { //should probably be replaced with for-each loop
             if (i != machineToRemove) {
                 newChangeOvers[j] = spec.getChangeOverTimes(i);
                 ++j;
@@ -112,6 +109,7 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         }
         smallerSpec.setChangeOverTimes(newChangeOvers);
 
+        /*
         JobSpecification[] newJobSpecs = new JobSpecification[numJobs+1];
         for (int i=1; i<=numJobs; ++i) {
             JobSpecification jobSpec = spec.getJobSpecifications(i);
@@ -149,7 +147,11 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
             newJobSpec.setSpecificationsForTasks(newSpecsForTasks);
             newJobSpecs[i] = newJobSpec;
         }
-        smallerSpec.setJobSpecification(newJobSpecs);
+        */
+
+
+        //smallerSpec.setJobSpecification(newJobSpecs);
+        
 
         return smallerSpec;
     }
@@ -172,6 +174,7 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
 
         int jobToRemove = r.nextInt(originalNumJobs) + 1;
 
+        /*
         JobSpecification[] newJobSpecs = new JobSpecification[originalNumJobs];
         for (int i=1, j=1; i<=originalNumJobs; ++i) {
             if (i != jobToRemove) {
@@ -181,7 +184,17 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         }
         smallerSpec.setJobSpecification(newJobSpecs);
 
+        */
+        Job[] newJobs = new Job[originalNumJobs];
+        for (int i=1, j=1; i<=originalNumJobs; ++i) {
+            if (i != jobToRemove) {
+                newJobs[j] = spec.getJob(i);
+                ++j;
+            }
+        }
+        smallerSpec.setJobs(newJobs);
         return smallerSpec;
+
     }
 
     @Override public BigDecimal magnitude(Object value) {
@@ -189,7 +202,7 @@ public class SimulationSpecificationGenerator extends Generator<SimulationSpecif
         int size = simulationSpecification.getNumMachines();
         size += simulationSpecification.getNumJobs();
         for (int i=1; i<=simulationSpecification.getNumJobs(); ++i) {
-            size += simulationSpecification.getJobSpecifications(i).getNumTasks();
+            size += simulationSpecification.getJob(i).getNumTasks();
         }
 
         return BigDecimal.valueOf(size);

@@ -79,6 +79,10 @@ class Job {
         return id;
     }
 
+    public int getFirstMachine() {
+        return ((Task)taskQ.getFrontElement()).getMachine();
+    }
+
 	void addTasksFromSpecifications(int[] taskSpecifications) {
 
 	    for (int j = 1; j < taskSpecifications.length - 1; j += 2) {
@@ -88,19 +92,8 @@ class Job {
 	    } // task queue
     }
 
-    public JobSpecification getSpecificationFromJob() {
-        JobSpecification output = new JobSpecification();
-        int numTasks = taskQ.size();
-        int[] outputArray = new int[2*numTasks+1];
-        int i = 1;
-        for(Object theTask: taskQ.toArrayList()){
-            outputArray[2 * (i - 1) + 1] = ((Task) theTask).getMachine();
-            outputArray[2 * (i - 1) + 2] = ((Task) theTask).getTime();
-            i++;
-        }
-        output.setSpecificationsForTasks(outputArray);
-        output.setNumTasks(numTasks);
-        return output;        
+    public int getNumTasks() {
+        return taskQ.size();
     }
 
 }
