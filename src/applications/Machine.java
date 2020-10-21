@@ -22,9 +22,9 @@ class Machine {
         machine.totalWait = (machine.totalWait + timeNow - machine.activeJob.getArrivalTime());
     }
 
-    public void beginNextJob(MachineShopSimulator machineShopSimulator) {
+    public void beginNextJob(int timeNow) {
         newActiveJob();
-        setWait(this, machineShopSimulator.getTimeNow());
+        setWait(this, timeNow);
         numTasks++;
     }
 
@@ -54,5 +54,27 @@ class Machine {
 
     public void setActiveJob(Job activeJob) {
         this.activeJob = activeJob;
+    }
+
+    Job processWork(int theMachine, int largeTime, int timeNow, EventList elist) {
+        Job lastJob;
+        if (getActiveJob() == null) {// in idle or change-over
+                                                    // state
+            lastJob = null;
+            // wait over, ready for new job
+            if (getJobQ().isEmpty()) // no waiting job
+                elist.setFinishTime(theMachine, largeTime);
+            else {// take job off the queue and work on it
+                beginNextJob(timeNow);
+                int t = getActiveJob().removeNextTask();
+                elist.setFinishTime(theMachine, timeNow + t);
+            }
+        } else {// task has just finished on machine[theMachine]
+                // schedule change-over time
+            lastJob = getActiveJob();
+            setActiveJob(null);
+            elist.setFinishTime(theMachine, timeNow + getChangeTime());
+        }
+        return lastJob;
     }
 }

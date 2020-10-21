@@ -1,7 +1,5 @@
 package applications;
 
-import java.util.ArrayList;
-
 import dataStructures.LinkedQueue;
 
 class Job {

@@ -89,4 +89,24 @@ public class SimulationSpecification {
         builder.append(">");
         return builder.toString();
     }
+
+    void setUpJobs(Machine[] machine) {
+        // input the jobs
+        Job theJob;
+        for (int i = 1; i <= getNumJobs(); i++) {
+            int firstMachine = 0; // machine for first task
+
+            // create the job
+            theJob = new Job(i);
+            int[] taskSpecifications = getJobSpecifications(i).getSpecificationsForTasks();
+
+            // Note that taskSpecifications is an array of integers with values alternating
+            // between machine numbers and task times.  This is on the chopping block for
+            // priority refactoring, but preliminary work is being done first.
+
+            firstMachine = taskSpecifications[1];
+            theJob.addTasksFromSpecifications(taskSpecifications);
+            machine[firstMachine].getJobQ().put(theJob);
+        }
+    }
 }
