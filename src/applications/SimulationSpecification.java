@@ -46,15 +46,15 @@ public class SimulationSpecification {
 
     /**
      * @deprecated
-     * @param jobSpecifications
+     * @param theSpecifications
      * Automatically sets up Jobs, given specifications.
      */
-    public void setJobSpecification(JobSpecification[] jobSpecifications) {
-        this.jobSpecifications = jobSpecifications;
-        jobs = new Job[jobSpecifications.length];
-        for(int i = 1; i < jobSpecifications.length; i++) {
-            if (jobSpecifications[i].getSpecificationsForTasks() != null) {
-                jobs[i] = new Job(i, jobSpecifications[i].getSpecificationsForTasks());
+    public void setJobSpecification(JobSpecification[] theSpecifications) {
+        this.jobSpecifications = theSpecifications;
+        jobs = new Job[theSpecifications.length];
+        for(int i = 1; i < theSpecifications.length; i++) {
+            if (theSpecifications[i].getSpecificationsForTasks() != null) {
+                jobs[i] = new Job(i, theSpecifications[i].getSpecificationsForTasks());
             } else {
                 jobs[i] = new Job(i);
             }

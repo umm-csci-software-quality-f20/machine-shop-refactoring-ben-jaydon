@@ -19,4 +19,9 @@ class Task {
     public int getTime() {
         return time;
     }
+
+    @Override
+    public String toString() {
+        return "Machine " + machine +" Time " + time;
+    }
 }

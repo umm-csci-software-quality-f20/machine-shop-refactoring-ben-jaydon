@@ -36,6 +36,7 @@ run {
 
 // JaCoCo provides JUnit test coverage information
 test {
+    test.testLogging.showStandardStreams = true
     finalizedBy jacocoTestReport
 }
 jacocoTestReport {

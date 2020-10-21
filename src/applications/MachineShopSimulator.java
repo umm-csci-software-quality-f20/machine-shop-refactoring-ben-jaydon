@@ -87,7 +87,6 @@ public class MachineShopSimulator {
         /*
         Job theJob;
         for (int i = 1; i <= specification.getNumJobs(); i++) {
-            theJob = new Job(specifications.jobs[])
             
             int firstMachine = 0; // machine for first task
 
@@ -107,11 +106,23 @@ public class MachineShopSimulator {
         }
         */
 
+        //*
+        int nullCount = 0;
         for(Job j: specification.jobs) {
             if(j != null) {
+                //System.err.println(j.getTaskQ());
+                //System.err.println(j.getFirstMachine());
+
+                //Both give expected results
+
                 machine[j.getFirstMachine()].getJobQ().put(j);
+                //System.err.println("Tasks: " + j.getTaskQ());
+            } else {
+                nullCount++;
             }
         }
+        //System.err.println("" + nullCount + " null job(s).");
+        //*/
     }
 
     private void createEventAndMachineQueues(SimulationSpecification specification) {
