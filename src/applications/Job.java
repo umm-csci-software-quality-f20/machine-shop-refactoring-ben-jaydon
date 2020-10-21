@@ -101,15 +101,4 @@ class Job {
         return output;        
     }
 
-    boolean scheduleTask(MachineShopSimulator machineShopSimulator) {
-        int p = ((Task) getTaskQ().getFrontElement()).getMachine();
-        // put on machine p's wait queue
-        machineShopSimulator.getMachine()[p].getJobQ().put(this);
-        setArrivalTime(machineShopSimulator.getTimeNow());
-        // if p idle, schedule immediately
-        if (machineShopSimulator.geteList().nextEventTime(p) == machineShopSimulator.getLargeTime()) {// machine is idle
-            machineShopSimulator.changeState(p);
-        }
-        return true;
-    }
 }

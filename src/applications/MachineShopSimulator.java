@@ -28,9 +28,21 @@ public class MachineShopSimulator {
             simulationResults.setJobCompletionData(theJob.getId(), timeNow, timeNow - theJob.getLength());
             return false;
         } else {// theJob has a next task
-                // get machine for next task
-            return theJob.scheduleTask(this);
+            // get machine for next task
+            return scheduleTask(theJob);
         }
+    }
+
+    boolean scheduleTask(Job job) {
+        int p = ((Task) job.getTaskQ().getFrontElement()).getMachine();
+        // put on machine p's wait queue
+        getMachine()[p].getJobQ().put(job);
+        job.setArrivalTime(getTimeNow());
+        // if p idle, schedule immediately
+        if (geteList().nextEventTime(p) == getLargeTime()) {// machine is idle
+            changeState(p);
+        }
+        return true;
     }
 
     /**
@@ -39,10 +51,11 @@ public class MachineShopSimulator {
      * @return last job run on this machine
      */
     Job changeState(int theMachine) {// Task on theMachine has finished,
-                                            // schedule next one.
+        // schedule next one.
         Job lastJob;
-        Machine machine = this.machine[theMachine];
-        lastJob = machine.processWork(theMachine, this);
+        EventList elist = geteList();
+        Machine machine = getMachine()[theMachine];
+        lastJob = machine.processWork(theMachine, getLargeTime(), getTimeNow(), elist);
 
         return lastJob;
     }
@@ -74,7 +87,7 @@ public class MachineShopSimulator {
         setMachineChangeOverTimes(specification);
 
         // Move this to startShop when ready
-        specification.setUpJobs(this);
+        specification.setUpJobs(getMachine());
 
         for (int p = 1; p <= numMachines; p++)
             changeState(p);
@@ -155,10 +168,6 @@ public class MachineShopSimulator {
         return eList;
     }
 
-    public void seteList(EventList eList) {
-        this.eList = eList;
-    }
-
     public Machine[] getMachine() {
         return machine;
     }
@@ -171,7 +180,4 @@ public class MachineShopSimulator {
         return largeTime;
     }
 
-    public void setLargeTime(int largeTime) {
-        this.largeTime = largeTime;
-    }
 }

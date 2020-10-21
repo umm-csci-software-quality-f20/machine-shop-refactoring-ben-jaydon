@@ -90,7 +90,7 @@ public class SimulationSpecification {
         return builder.toString();
     }
 
-    void setUpJobs(MachineShopSimulator machineShopSimulator) {
+    void setUpJobs(Machine[] machine) {
         // input the jobs
         Job theJob;
         for (int i = 1; i <= getNumJobs(); i++) {
@@ -106,7 +106,7 @@ public class SimulationSpecification {
 
             firstMachine = taskSpecifications[1];
             theJob.addTasksFromSpecifications(taskSpecifications);
-            machineShopSimulator.getMachine()[firstMachine].getJobQ().put(theJob);
+            machine[firstMachine].getJobQ().put(theJob);
         }
     }
 }
