@@ -30,7 +30,8 @@ public class SpecificationReader {
 
     /**
      * @deprecated
-     */
+    */
+    /*
     private void readJobSpecifications() {
         // input the jobs
         JobSpecification[] jobSpecifications = new JobSpecification[specification.getNumJobs() + 1];
@@ -59,7 +60,7 @@ public class SpecificationReader {
             specification.setSpecificationsForTasks(i, specificationsForTasks);
         }
     }
-
+    */
     private void readJobs() {
         Job[] theJobs = new Job[specification.getNumJobs() + 1];
         for (int i = 1; i <= specification.getNumJobs(); i++) {

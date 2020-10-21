@@ -92,6 +92,11 @@ class Job {
 	    } // task queue
     }
 
+    public int getNumTasks() {
+        return taskQ.size();
+    }
+
+    /*
     public JobSpecification getSpecificationFromJob() {
         JobSpecification output = new JobSpecification();
         int numTasks = taskQ.size();
@@ -111,5 +116,6 @@ class Job {
         output.setNumTasks(numTasks);
         return output;        
     }
+    */
 
 }

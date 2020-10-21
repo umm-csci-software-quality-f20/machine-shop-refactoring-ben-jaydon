@@ -107,7 +107,7 @@ public class MachineShopSimulator {
         */
 
         //*
-        int nullCount = 0;
+        //int nullCount = 0;
         for(Job j: specification.jobs) {
             if(j != null) {
                 //System.err.println(j.getTaskQ());
@@ -117,8 +117,6 @@ public class MachineShopSimulator {
 
                 machine[j.getFirstMachine()].getJobQ().put(j);
                 //System.err.println("Tasks: " + j.getTaskQ());
-            } else {
-                nullCount++;
             }
         }
         //System.err.println("" + nullCount + " null job(s).");
