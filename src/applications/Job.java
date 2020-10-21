@@ -96,26 +96,4 @@ class Job {
         return taskQ.size();
     }
 
-    /*
-    public JobSpecification getSpecificationFromJob() {
-        JobSpecification output = new JobSpecification();
-        int numTasks = taskQ.size();
-        System.err.println("numTasks = " + numTasks);
-        int[] outputArray = new int[2*numTasks+1];
-        int i = 1;
-        System.err.println("taskQ: " + taskQ);
-        ArrayList<Object> taskQArray = taskQ.toArrayList();
-        System.err.println("Array from taskQ: " + taskQArray);
-        for(Object theTask: taskQArray){
-            outputArray[2 * (i - 1) + 1] = ((Task) theTask).getMachine();
-            outputArray[2 * (i - 1) + 2] = ((Task) theTask).getTime();
-            i++;
-        }
-        output.setSpecificationsForTasks(outputArray);
-        System.err.println("Actual task number: " + (outputArray.length - 1));
-        output.setNumTasks(numTasks);
-        return output;        
-    }
-    */
-
 }

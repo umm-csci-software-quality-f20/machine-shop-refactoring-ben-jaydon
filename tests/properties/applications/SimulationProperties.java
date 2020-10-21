@@ -82,19 +82,7 @@ public class SimulationProperties {
         assertTrue("" + numJobs + " jobs, should be greater than 0", numJobs > 0);
 
         for (int i=1; i<=numJobs; ++i) {
-            /*
-            JobSpecification jobSpecification = specification.getJobSpecifications(i); //would explode if spec array was empty
-            int numTasks = jobSpecification.getNumTasks(); //would be exploding if i was null
-            assertTrue("Should actually be tasks", jobSpecification.getSpecificationsForTasks().length > 1);
-            assertTrue("" + numTasks + " tasks, should be greater than 0", numTasks > 0);
-            System.err.println("numTasks: " + numTasks);
-            int[] specsForTasks = jobSpecification.getSpecificationsForTasks();
-            for (int j=1; j<=numTasks; ++j) {
-                int theMachine = specsForTasks[2*(j-1)+1];
-                System.err.println("i: " + i + ", j: " + j + ", theMachine: " + theMachine);
-                ++expectedMachineTaskCounts[theMachine];
-            }
-            //*/
+
             Job theJob = specification.getJob(i);
             assertTrue("Should be tasks in the task queue itself", theJob.getTaskQ().size() > 0);
             ArrayList<Object> jobTasks = theJob.getTaskQ().toArrayList();
